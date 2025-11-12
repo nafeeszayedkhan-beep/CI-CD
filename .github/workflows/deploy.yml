@@ -21,7 +21,8 @@ jobs:
 
       - name: Build and push image
         run: |
-          IMAGE=gcr.io/${{ secrets.GCP_PROJECT }}/demo-app:${{ github.sha }}
+          IMAGE=${REGION}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/demo-repo/demo-app:${{ github.sha }}
+
           docker build -t $IMAGE ./app
           docker push $IMAGE
 
@@ -32,6 +33,6 @@ jobs:
 
       - name: Deploy to GKE
         run: |
-          sed -i "s|gcr.io/REPLACE_WITH_PROJECT_ID/demo-app:\${GITHUB_SHA}|gcr.io/${{ secrets.GCP_PROJECT }}/demo-app:${{ github.sha }}|g" k8s/deployment.yaml
+          sed -i "s|gcr.io/REPLACE_WITH_PROJECT_ID/demo-app:\${GITHUB_SHA}|us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/demo-repo/demo-app:${{ github.sha }}|g" k8s/deployment.yaml
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
