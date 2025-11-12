@@ -21,7 +21,8 @@ jobs:
 
       - name: Build and push image
         run: |
-          IMAGE=${REGION}-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/demo-repo/demo-app:${{ github.sha }}
+          IMAGE=us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT }}/demo-repo/demo-app:${{ github.sha }}
+
 
           docker build -t $IMAGE ./app
           docker push $IMAGE
